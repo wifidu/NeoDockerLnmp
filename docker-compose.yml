@@ -1,0 +1,71 @@
+version: "3"
+
+services:
+    nginx:
+        image: nginx
+        volumes:
+            - ./sites:/etc/nginx/conf.d
+            - ./www:/var/www
+        networks:
+            - lnmp
+        depends_on:
+            - php
+        expose:
+            - "80"
+        ports:
+            - "80:80"
+        working_dir: /var/www
+    php:
+        build:
+            context: ./
+            dockerfile: php.dockerfile
+        volumes:
+            - ./www:/var/www
+        networks:
+            - lnmp
+        depends_on:
+            - mariadb
+            - redis
+            - memcached
+        expose:
+            - "9000"
+        working_dir: /var/www
+    mariadb:
+        image: mariadb
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: 123456
+        volumes:
+            - ./data/mariadb:/var/lib/mysql
+        networks:
+            - lnmp
+        expose:
+            - "3306"
+        ports:
+            - "3306:3306"
+    redis:
+        image: redis
+        volumes:
+            - ./data/redis:/data
+        networks:
+            - lnmp
+        expose:
+            - "6379"
+    memcached:
+        image: memcached
+        networks:
+            - lnmp
+        expose:
+            - "11211"
+    tools:
+        build:
+            context: ./
+            dockerfile: tools.dockerfile
+        volumes:
+            - ./www:/var/www
+        networks:
+            - lnmp
+
+networks:
+    lnmp:
+
