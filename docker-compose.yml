@@ -17,8 +17,8 @@ services:
         working_dir: /var/www
     php:
         build:
-            context: ./
-            dockerfile: php.dockerfile
+            context: ./php
+            dockerfile: dockerfile
         volumes:
             - ./www:/var/www
         networks:
@@ -59,8 +59,8 @@ services:
             - "11211"
     tools:
         build:
-            context: ./
-            dockerfile: tools.dockerfile
+            context: ./tools
+            dockerfile: dockerfile
         volumes:
             - ./www:/var/www
         networks:
