@@ -4,7 +4,7 @@ services:
     nginx:
         image: nginx
         volumes:
-            - ./sites:/etc/nginx/conf.d
+            - ./nginxconf:/etc/nginx/conf.d
             - ./www:/var/www
         networks:
             - lnmp
