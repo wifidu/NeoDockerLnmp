@@ -33,8 +33,9 @@ services:
     mariadb:
         image: mariadb
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: 123456
+            MYSQL_ROOT_PASSWORD: 123456
+            MYSQL_DATABASE: homestead
+            MYSQL_USER: weifan
         volumes:
             - ./data/mariadb:/var/lib/mysql
         networks:
