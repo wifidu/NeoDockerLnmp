@@ -8,6 +8,7 @@ services:
             - ./www:/var/www
             - ./nginxconf/nginx.conf:/etc/nginx/nginx.conf:ro,cached
             - ./log/nginx/:/var/log/nginx/:rw,cached
+            - ./nginxconf/vhost:/etc/nginx/conf.d
         networks:
             - lnmp
         depends_on:
