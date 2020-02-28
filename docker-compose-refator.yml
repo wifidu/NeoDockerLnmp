@@ -18,7 +18,9 @@ services:
             - "80:80"
         working_dir: /var/www
     php:
-        image: registry.cn-hangzhou.aliyuncs.com/duweifan/php-fpm
+        build:
+            context: ./php
+            dockerfile: dockerfile
         volumes:
             - ./phpconf/php.ini:/usr/local/etc/php/php.ini:ro,cached
             - ./phpconf/php.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:rw,cached
@@ -62,11 +64,14 @@ services:
         expose:
             - "11211"
     tools:
-        image: registry.cn-hangzhou.aliyuncs.com/duweifan/tools
+        build:
+            context: ./tools
+            dockerfile: dockerfile
         volumes:
-            - ./www:/var/www
+            - ./www: /var/www
         networks:
             - lnmp
 
 networks:
     lnmp:
+
