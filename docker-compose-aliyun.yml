@@ -1,0 +1,72 @@
+version: "3"
+
+services:
+    nginx:
+        image: nginx
+        volumes:
+            - ./nginxconf/deault.conf:/etc/nginx/conf.d/default.conf:ro,cached
+            - ./www:/var/www
+            - ./nginxconf/nginx.conf:/etc/nginx/nginx.conf:ro,cached
+            - ./log/nginx/:/var/log/nginx/:rw,cached
+        networks:
+            - lnmp
+        depends_on:
+            - php
+        expose:
+            - "80"
+        ports:
+            - "80:80"
+        working_dir: /var/www
+    php:
+        image: registry.cn-hangzhou.aliyuncs.com/duweifan/php-fpm
+        volumes:
+            - ./phpconf/php.ini:/usr/local/etc/php/php.ini:ro,cached
+            - ./phpconf/php.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:rw,cached
+            - ./log/php/:/var/log/php-fpm/:rw,cached
+            - ./www:/var/www:rw,cached
+        networks:
+            - lnmp
+        depends_on:
+            - mariadb
+            - redis
+            - memcached
+        expose:
+            - "9000"
+        working_dir: /var/www
+    mariadb:
+        image: mariadb
+        environment:
+            MYSQL_ROOT_PASSWORD: 123456
+            MYSQL_DATABASE: homestead
+            MYSQL_USER: weifan
+        volumes:
+            - ./data/mariadb:/var/lib/mysql
+        networks:
+            - lnmp
+        expose:
+            - "3306"
+        ports:
+            - "3306:3306"
+    redis:
+        image: redis
+        volumes:
+            - ./data/redis:/data
+        networks:
+            - lnmp
+        expose:
+            - "6379"
+    memcached:
+        image: memcached
+        networks:
+            - lnmp
+        expose:
+            - "11211"
+    tools:
+      image: registry.cn-hangzhou.aliyuncs.com/duweifan/tools
+        volumes:
+            - ./www:/var/www
+        networks:
+            - lnmp
+
+networks:
+    lnmp:
