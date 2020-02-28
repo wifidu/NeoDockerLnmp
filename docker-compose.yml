@@ -68,7 +68,7 @@ services:
             context: ./tools
             dockerfile: dockerfile
         volumes:
-            - ./www:/var/www
+            - ./www: /var/www
         networks:
             - lnmp
 

@@ -62,7 +62,7 @@ services:
         expose:
             - "11211"
     tools:
-      image: registry.cn-hangzhou.aliyuncs.com/duweifan/tools
+        image: registry.cn-hangzhou.aliyuncs.com/duweifan/tools
         volumes:
             - ./www:/var/www
         networks:
