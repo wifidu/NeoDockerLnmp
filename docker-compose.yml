@@ -18,13 +18,15 @@ services:
         ports:
             - "80:80"
         working_dir: /var/www
+        container_name: nginx
     php:
-        image: registry.cn-hangzhou.aliyuncs.com/duweifan/php-fpm:1
+        image: registry.cn-hangzhou.aliyuncs.com/duweifan/php-fpm:2
         volumes:
             - ./phpconf/php.ini:/usr/local/etc/php/php.ini:ro,cached
             - ./phpconf/php.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:rw,cached
             - ./log/php/:/var/log/php-fpm/:rw,cached
             - ./www:/var/www:rw,cached
+        user: 1000:1000
         networks:
             - lnmp
         depends_on:
@@ -34,12 +36,14 @@ services:
         expose:
             - "9000"
         working_dir: /var/www
+        container_name: php
     mariadb:
         image: mariadb
         environment:
             MYSQL_ROOT_PASSWORD: 123456
-            MYSQL_DATABASE: homestead
+            MYSQL_DATABASE: larabbs weifan
             MYSQL_USER: weifan
+            MYSQL_PASSWORD: 123456
         volumes:
             - ./data/mariadb:/var/lib/mysql
         networks:
@@ -48,6 +52,7 @@ services:
             - "3306"
         ports:
             - "3306:3306"
+        container_name: mysql
     redis:
         image: redis
         volumes:
@@ -56,18 +61,21 @@ services:
             - lnmp
         expose:
             - "6379"
+        container_name: redis
     memcached:
         image: memcached
         networks:
             - lnmp
         expose:
             - "11211"
+        container_name: memcached
     tools:
         image: registry.cn-hangzhou.aliyuncs.com/duweifan/tools:1
         volumes:
             - ./www:/var/www
         networks:
             - lnmp
+        container_name: tools
 
 networks:
     lnmp:

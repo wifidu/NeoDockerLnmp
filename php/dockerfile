@@ -39,8 +39,8 @@ RUN apt update \
   && pecl install -o -f $PHP_EXT_INSTALLED_PECL \
   && docker-php-ext-configure gd --with-gd --with-webp-dir --with-jpeg-dir \
       --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir \
-  && docker-php-ext-install opcache bcmath bz2 gd iconv mysqli pdo pdo_mysql zip sockets \
-  && docker-php-ext-enable opcache redis memcached mongodb mcrypt amqp \
+  && docker-php-ext-install opcache bcmath bz2 gd iconv mysqli pdo pdo_mysql zip sockets pcntl\
+  && docker-php-ext-enable opcache memcached mongodb mcrypt amqp \
   && curl $PHP_COMPOSER_URL -o /usr/local/bin/composer \
   && chmod a+x /usr/local/bin/composer \
   && composer config -g repo.packagist composer $PHP_COMPOSER_REPO \
@@ -50,6 +50,7 @@ RUN apt update \
   && apt purge -y --auto-remove \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/pear ~/.pearrc \
+  && useradd -u 1000 duweifan \
   # && cd $WORKING_DIR && cd .. && rm -rf $WORKING_DIR
 
 # After Build
