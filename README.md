@@ -8,14 +8,10 @@
 
 ## 第二步，获取项目代码
 
-```bash
-git clone https://github.com/wifidu/docker-compose-lnmpp.git
-```
-
 ## 第三步，运行容器编排
 
 ```bash
-cd Docker-LNMP   // 进入项目根目录
+cd   // 进入项目根目录
 docker-compose up -d   // 容器编排命令
 ```
 
